@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
@@ -24,6 +25,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.notedemoapp.data.models.Note
 import com.example.notedemoapp.ui.theme.NoteDemoAppTheme
@@ -92,6 +94,7 @@ private fun NoteItem(
             .shadow(5.dp, RoundedCornerShape(10.dp))
             .clip(RoundedCornerShape(10.dp))
             .aspectRatio(1f)
+            .background(Color(note?.color!!))
     ) {
         Column(
             modifier = Modifier
@@ -99,7 +102,7 @@ private fun NoteItem(
                 .padding(10.dp),
             verticalArrangement = Arrangement.Top,
         ) {
-            note?.title?.let {
+            note.title?.let {
                 Text(
                     text = it,
                     modifier = modifier
@@ -107,7 +110,7 @@ private fun NoteItem(
                         .padding(10.dp)
                 )
             }
-            note?.content?.let {
+            note.content?.let {
                 Text(
                     text = it,
                     modifier = modifier
@@ -124,7 +127,7 @@ private fun NoteItem(
 private fun NoteItemPreview() {
     NoteDemoAppTheme {
         Surface {
-            val fakeNote = Note("Title", "Content" , 16565656556)
+            val fakeNote = Note("Title", "Content" , 16565656556,  -16776961)
             NoteItem(note = fakeNote, modifier = Modifier)
         }
     }
@@ -135,7 +138,7 @@ private fun NoteItemPreview() {
 private fun NoteItemPreviewDark() {
     NoteDemoAppTheme(darkTheme = true) {
         Surface {
-            val fakeNote = Note("Title", "Content" , 16565656556)
+            val fakeNote = Note("Title", "Content" , 16565656556,  -16776961)
             NoteItem(note = fakeNote, modifier = Modifier)
         }
     }

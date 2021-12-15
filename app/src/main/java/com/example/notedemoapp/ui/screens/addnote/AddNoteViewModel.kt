@@ -2,6 +2,8 @@ package com.example.notedemoapp.ui.screens.addnote
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.notedemoapp.data.models.InvalidNoteException
@@ -31,6 +33,8 @@ class AddNoteViewModel @Inject constructor(
         hint = "Введите контент..."))
     val noteContent: State<NoteTextFieldState> = _noteContent
 
+    var color: Int = Color.Blue.toArgb()
+
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
@@ -56,6 +60,9 @@ class AddNoteViewModel @Inject constructor(
                     isHintVisible = !event.focusState.isFocused && _noteContent.value.text.isBlank()
                 )
             }
+            is AddEditNoteEvent.ChangeColor -> {
+                color = event.color
+            }
             is AddEditNoteEvent.SaveNote -> {
                 viewModelScope.launch {
                     try {
@@ -63,7 +70,8 @@ class AddNoteViewModel @Inject constructor(
                             Note(
                                 title = noteTitle.value.text,
                                 content = noteContent.value.text,
-                                timestamp = System.currentTimeMillis()
+                                timestamp = System.currentTimeMillis(),
+                                color = color
                             )
                         )
                         _eventFlow.emit(UiEvent.SaveNote)

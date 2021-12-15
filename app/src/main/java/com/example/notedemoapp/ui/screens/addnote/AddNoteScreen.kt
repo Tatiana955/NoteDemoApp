@@ -1,5 +1,7 @@
 package com.example.notedemoapp.ui.screens.addnote
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -9,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -18,6 +21,7 @@ import com.example.notedemoapp.ui.screens.addnote.components.TransparentHintText
 import com.example.notedemoapp.ui.screens.addnote.util.AddEditNoteEvent
 import com.example.notedemoapp.ui.screens.addnote.util.UiEvent
 import kotlinx.coroutines.flow.collectLatest
+import yuku.ambilwarna.AmbilWarnaDialog
 
 @Composable
 fun AddNoteScreen(
@@ -74,6 +78,15 @@ private fun Content(
         modifier = modifier
             .padding(5.dp)
     ) {
+        Row(
+            modifier = modifier
+                .align(Alignment.End)
+        ) {
+            NoteColor(
+                viewModel = viewModel
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
         TransparentHintTextField(
             text = titleState.text,
             hint = titleState.hint,
@@ -109,4 +122,32 @@ private fun Content(
             textStyle = MaterialTheme.typography.body1,
         )
     }
+}
+
+@Composable
+private fun NoteColor(
+    viewModel: AddNoteViewModel
+) {
+    val context = LocalContext.current
+    Image(
+        painterResource(R.drawable.art_palette),
+        "Palette",
+        modifier = Modifier
+            .size(50.dp)
+            .clickable {
+                AmbilWarnaDialog(
+                    context,
+                    viewModel.color,
+                    object : AmbilWarnaDialog.OnAmbilWarnaListener {
+                        override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
+                            viewModel.color = color
+                            viewModel.onEvent(AddEditNoteEvent.ChangeColor(viewModel.color))
+                        }
+                        override fun onCancel(dialog: AmbilWarnaDialog?) {
+                            dialog?.dialog?.dismiss()
+                        }
+                    }
+                ).show()
+            }
+    )
 }

@@ -1,4 +1,4 @@
-package com.example.notedemoapp.ui
+package com.example.notedemoapp.ui.screens
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.padding
@@ -7,6 +7,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import com.example.notedemoapp.ui.AppNavHost
 import com.example.notedemoapp.ui.components.AppTopBar
 
 @ExperimentalFoundationApi
@@ -22,7 +23,7 @@ fun AppScreen() {
         content = { innerPadding ->
             AppNavHost(
                 navController = navController,
-                modifier = Modifier.padding(innerPadding),
+                modifier = Modifier.padding(innerPadding)
             )
         }
     )
