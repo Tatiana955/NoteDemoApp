@@ -26,7 +26,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.notedemoapp.R
 import com.example.notedemoapp.data.models.Note
 import com.example.notedemoapp.ui.theme.NoteDemoAppTheme
 import com.example.notedemoapp.util.Screen
@@ -48,7 +50,10 @@ fun NotesScreen(
                 },
                 backgroundColor = MaterialTheme.colors.primary
             ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add note")
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(R.string.add_note)
+                )
             }
         },
     ) {
@@ -76,7 +81,7 @@ private fun Content(
             ) {
                 NoteItem(
                     note = item,
-                    modifier = modifier,
+                    modifier = modifier
                 )
             }
         })
@@ -97,7 +102,7 @@ private fun NoteItem(
             .background(Color(note?.color!!))
     ) {
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
                 .padding(10.dp),
             verticalArrangement = Arrangement.Top,

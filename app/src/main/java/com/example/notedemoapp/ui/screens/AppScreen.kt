@@ -6,9 +6,11 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.rememberNavController
 import com.example.notedemoapp.ui.AppNavHost
 import com.example.notedemoapp.ui.components.AppTopBar
+import com.example.notedemoapp.R
 
 @ExperimentalFoundationApi
 @Composable
@@ -17,7 +19,11 @@ fun AppScreen() {
     Scaffold(
         topBar = {
             AppTopBar(
-                title = { Text(text = "Notes") }
+                title = {
+                    Text(
+                        text = stringResource(R.string.notes)
+                    )
+                }
             )
         },
         content = { innerPadding ->

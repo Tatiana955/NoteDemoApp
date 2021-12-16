@@ -1,7 +1,5 @@
 package com.example.notedemoapp.ui.screens.addnote
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -13,6 +11,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -45,19 +44,6 @@ fun AddNoteScreen(
         }
     }
     Scaffold(
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    viewModel.onEvent(AddEditNoteEvent.SaveNote)
-                },
-                backgroundColor = MaterialTheme.colors.primary
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_baseline_done_24),
-                    contentDescription = "Save note"
-                )
-            }
-        },
         scaffoldState = scaffoldState
     ) {
         Content(
@@ -72,9 +58,9 @@ private fun Content(
     viewModel: AddNoteViewModel,
     modifier: Modifier
 ) {
-    val titleState = viewModel.noteTitle.value
-    val contentState = viewModel.noteContent.value
     Column(
+        verticalArrangement = Arrangement.Bottom,
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .padding(5.dp)
     ) {
@@ -83,71 +69,124 @@ private fun Content(
                 .align(Alignment.End)
         ) {
             NoteColor(
-                viewModel = viewModel
+                viewModel = viewModel,
+                modifier = modifier
+            )
+            Spacer(modifier = modifier.width(16.dp))
+            SaveNote(
+                viewModel = viewModel,
+                modifier = modifier
             )
         }
-        Spacer(modifier = Modifier.height(16.dp))
-        TransparentHintTextField(
-            text = titleState.text,
-            hint = titleState.hint,
+        Spacer(modifier = modifier.height(16.dp))
+        EditTitle(
+            viewModel = viewModel,
             modifier = modifier
-                .shadow(5.dp, RoundedCornerShape(10.dp))
-                .clip(RoundedCornerShape(10.dp))
-                .align(Alignment.CenterHorizontally),
-            onValueChange = {
-                viewModel.onEvent(AddEditNoteEvent.EnteredTitle(it))
-            },
-            onFocusChange = {
-                viewModel.onEvent(AddEditNoteEvent.ChangeTitleFocus(it))
-            },
-            isHintVisible = titleState.isHintVisible,
-            singleLine = true,
-            textStyle = MaterialTheme.typography.h5
         )
-        Spacer(modifier = Modifier.height(16.dp))
-        TransparentHintTextField(
-            text = contentState.text,
+        Spacer(modifier = modifier.height(16.dp))
+        EditContent(
+            viewModel = viewModel,
             modifier = modifier
-                .fillMaxHeight()
-                .shadow(5.dp, RoundedCornerShape(10.dp))
-                .clip(RoundedCornerShape(10.dp)),
-            hint = contentState.hint,
-            onValueChange = {
-                viewModel.onEvent(AddEditNoteEvent.EnteredContent(it))
-            },
-            onFocusChange = {
-                viewModel.onEvent(AddEditNoteEvent.ChangeContentFocus(it))
-            },
-            isHintVisible = contentState.isHintVisible,
-            textStyle = MaterialTheme.typography.body1,
+        )
+    }
+}
+@Composable
+private fun SaveNote(
+    viewModel: AddNoteViewModel,
+    modifier: Modifier
+) {
+    FloatingActionButton(
+        modifier = modifier
+            .size(40.dp),
+        onClick = {
+            viewModel.onEvent(AddEditNoteEvent.SaveNote)
+        },
+        backgroundColor = MaterialTheme.colors.primary,
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.ic_baseline_done_24),
+            contentDescription = stringResource(R.string.save_note)
         )
     }
 }
 
 @Composable
 private fun NoteColor(
-    viewModel: AddNoteViewModel
+    viewModel: AddNoteViewModel,
+    modifier: Modifier
 ) {
     val context = LocalContext.current
-    Image(
-        painterResource(R.drawable.art_palette),
-        "Palette",
-        modifier = Modifier
-            .size(50.dp)
-            .clickable {
-                AmbilWarnaDialog(
-                    context,
-                    viewModel.color,
-                    object : AmbilWarnaDialog.OnAmbilWarnaListener {
-                        override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
-                            viewModel.color = color
-                            viewModel.onEvent(AddEditNoteEvent.ChangeColor(viewModel.color))
-                        }
-                        override fun onCancel(dialog: AmbilWarnaDialog?) {
-                            dialog?.dialog?.dismiss()
-                        }
+    FloatingActionButton(
+        modifier = modifier
+            .size(40.dp),
+        onClick = {
+            AmbilWarnaDialog(
+                context,
+                viewModel.color,
+                object : AmbilWarnaDialog.OnAmbilWarnaListener {
+                    override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
+                        viewModel.color = color
+                        viewModel.onEvent(AddEditNoteEvent.ChangeColor(viewModel.color))
                     }
-                ).show()
-            }
+                    override fun onCancel(dialog: AmbilWarnaDialog?) {
+                        dialog?.dialog?.dismiss()
+                    }
+                }
+            ).show()
+        },
+        backgroundColor = MaterialTheme.colors.primary,
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.ic_baseline_palette_24),
+            contentDescription = stringResource(R.string.palette)
+        )
+    }
+}
+
+@Composable
+private fun EditTitle(
+    viewModel: AddNoteViewModel,
+    modifier: Modifier
+) {
+    val titleState = viewModel.noteTitle.value
+    TransparentHintTextField(
+        text = titleState.text,
+        hint = titleState.hint,
+        modifier = modifier
+            .shadow(5.dp, RoundedCornerShape(10.dp))
+            .clip(RoundedCornerShape(10.dp)),
+        onValueChange = {
+            viewModel.onEvent(AddEditNoteEvent.EnteredTitle(it))
+        },
+        onFocusChange = {
+            viewModel.onEvent(AddEditNoteEvent.ChangeTitleFocus(it))
+        },
+        isHintVisible = titleState.isHintVisible,
+        singleLine = true,
+        textStyle = MaterialTheme.typography.h5
+    )
+}
+
+@Composable
+private fun EditContent(
+    viewModel: AddNoteViewModel,
+    modifier: Modifier
+) {
+    val contentState = viewModel.noteContent.value
+    TransparentHintTextField(
+        text = contentState.text,
+        modifier = modifier
+            .fillMaxHeight()
+            .shadow(5.dp, RoundedCornerShape(10.dp))
+            .clip(RoundedCornerShape(10.dp)),
+        hint = contentState.hint,
+        onValueChange = {
+            viewModel.onEvent(AddEditNoteEvent.EnteredContent(it))
+        },
+        onFocusChange = {
+            viewModel.onEvent(AddEditNoteEvent.ChangeContentFocus(it))
+        },
+        isHintVisible = contentState.isHintVisible,
+        textStyle = MaterialTheme.typography.body1,
     )
 }

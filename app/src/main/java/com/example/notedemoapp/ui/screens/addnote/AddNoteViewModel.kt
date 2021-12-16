@@ -25,12 +25,14 @@ class AddNoteViewModel @Inject constructor(
 
     private val _noteTitle = mutableStateOf(
         NoteTextFieldState(
-        hint = "Введите заголовок...")
+        hint = "Enter title...")
     )
     val noteTitle: State<NoteTextFieldState> = _noteTitle
 
-    private val _noteContent = mutableStateOf(NoteTextFieldState(
-        hint = "Введите контент..."))
+    private val _noteContent = mutableStateOf(
+        NoteTextFieldState(
+        hint = "Enter content...")
+    )
     val noteContent: State<NoteTextFieldState> = _noteContent
 
     var color: Int = Color.Blue.toArgb()
@@ -78,7 +80,7 @@ class AddNoteViewModel @Inject constructor(
                     } catch(e: InvalidNoteException) {
                         _eventFlow.emit(
                             UiEvent.ShowSnackbar(
-                                message = e.message ?: "Не удалось сохранить заметку"
+                                message = e.message ?: "Failed to save note"
                             )
                         )
                     }
