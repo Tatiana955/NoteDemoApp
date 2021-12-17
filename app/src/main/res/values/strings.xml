@@ -10,4 +10,7 @@
     <string name="failed_save_note">Failed to save note</string>
     <string name="title_cannot_be_empty">Note title cannot be empty.</string>
     <string name="content_cannot_be_empty">The content of the note cannot be empty.</string>
+    <string name="delete">Delete?</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
 </resources>

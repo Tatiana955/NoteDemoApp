@@ -22,4 +22,10 @@ class NoteViewModel @Inject constructor(
             notesList.value = data
         }
     }
+
+    fun deleteNote(note: Note) {
+        viewModelScope.launch {
+            noteUseCases.deleteNote(note)
+        }
+    }
 }

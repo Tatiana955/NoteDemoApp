@@ -6,26 +6,26 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.notedemoapp.R
@@ -38,7 +38,8 @@ import com.example.notedemoapp.util.Screen
 fun NotesScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: NoteViewModel = hiltViewModel()
+    viewModel: NoteViewModel = hiltViewModel(),
+    onLongClick: (Note) -> Unit
 ) {
     viewModel.getNotes()
     val notesList by remember { viewModel.notesList }
@@ -59,7 +60,8 @@ fun NotesScreen(
     ) {
         Content(
             notesList = notesList,
-            modifier = modifier
+            modifier = modifier,
+            onLongClick = onLongClick
         )
     }
 }
@@ -68,16 +70,24 @@ fun NotesScreen(
 @Composable
 private fun Content(
     notesList: List<Note?>,
-    modifier: Modifier
+    modifier: Modifier,
+    onLongClick: (Note) -> Unit
 ) {
     LazyVerticalGrid(
         cells = GridCells.Fixed(2),
         contentPadding = PaddingValues(8.dp)
     ) {
         items(items = notesList, itemContent = { item ->
-            Column(
-                modifier = Modifier
+            Box(
+                modifier = modifier
                     .padding(4.dp)
+                    .pointerInput(Unit) {
+                        detectTapGestures(
+                            onLongPress = {
+                                onLongClick(item!!)
+                            }
+                        )
+                    }
             ) {
                 NoteItem(
                     note = item,
@@ -112,7 +122,7 @@ private fun NoteItem(
                     text = it,
                     modifier = modifier
                         .align(Alignment.CenterHorizontally)
-                        .padding(10.dp)
+                        .padding(5.dp)
                 )
             }
             note.content?.let {
@@ -120,7 +130,7 @@ private fun NoteItem(
                     text = it,
                     modifier = modifier
                         .align(Alignment.Start)
-                        .padding(10.dp)
+                        .padding(5.dp)
                 )
             }
         }
