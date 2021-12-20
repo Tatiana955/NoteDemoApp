@@ -6,12 +6,19 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavController
 import com.example.notedemoapp.R
+import com.example.notedemoapp.data.models.Note
 import com.example.notedemoapp.ui.components.AppMultiFloatingActionButton
+import com.example.notedemoapp.ui.screens.details.DetailsViewModel
 import com.example.notedemoapp.util.FabItem
 
 @Composable
-fun DetailsFloatingActionBtn() {
+fun DetailsFloatingActionBtn(
+    navController: NavController,
+    note: Note?,
+    viewModel: DetailsViewModel
+) {
     val fabItems = listOf(
         FabItem(
             Icons.Filled.Edit,
@@ -23,7 +30,10 @@ fun DetailsFloatingActionBtn() {
             Icons.Filled.Delete,
             stringResource(R.string.del)
         ) {
-
+            note?.let {
+                viewModel.deleteNote(it)
+            }
+            navController.popBackStack()
         }
     )
     AppMultiFloatingActionButton(

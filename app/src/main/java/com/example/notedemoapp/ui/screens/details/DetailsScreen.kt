@@ -12,6 +12,7 @@ import androidx.compose.foundation.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.draw.*
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.notedemoapp.ui.screens.details.components.DetailsFloatingActionBtn
 
@@ -19,11 +20,16 @@ import com.example.notedemoapp.ui.screens.details.components.DetailsFloatingActi
 fun DetailsScreen(
     navController: NavController,
     note: Note?,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: DetailsViewModel = hiltViewModel()
 ) {
     Scaffold (
         floatingActionButton = {
-            DetailsFloatingActionBtn()
+            DetailsFloatingActionBtn(
+                navController = navController,
+                note = note,
+                viewModel = viewModel
+            )
         }
     ) {
         Content(
