@@ -39,7 +39,8 @@ fun NotesScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
     viewModel: NoteViewModel = hiltViewModel(),
-    onLongClick: (Note) -> Unit
+    onLongClick: (Note) -> Unit,
+    onTap: (Note) -> Unit
 ) {
     viewModel.getNotes()
     val notesList by remember { viewModel.notesList }
@@ -61,7 +62,8 @@ fun NotesScreen(
         Content(
             notesList = notesList,
             modifier = modifier,
-            onLongClick = onLongClick
+            onLongClick = onLongClick,
+            onTap = onTap
         )
     }
 }
@@ -71,7 +73,8 @@ fun NotesScreen(
 private fun Content(
     notesList: List<Note?>,
     modifier: Modifier,
-    onLongClick: (Note) -> Unit
+    onLongClick: (Note) -> Unit,
+    onTap: (Note) -> Unit
 ) {
     LazyVerticalGrid(
         cells = GridCells.Fixed(2),
@@ -85,6 +88,9 @@ private fun Content(
                         detectTapGestures(
                             onLongPress = {
                                 onLongClick(item!!)
+                            },
+                            onTap = {
+                                onTap(item!!)
                             }
                         )
                     }

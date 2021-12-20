@@ -11,8 +11,8 @@ class NoteRepositoryImpl: NoteRepository {
         return listAll(Note::class.java)
     }
 
-    override suspend fun getNoteById(id: Long): Note {
-        return findById(Note::class.java, id)
+    override suspend fun getNoteById(timestamp: Long): Note {
+        return findById(Note::class.java, timestamp)
     }
 
     override suspend fun insertNote(note: Note) {
