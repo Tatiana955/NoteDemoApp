@@ -1,4 +1,4 @@
-package com.example.notedemoapp.ui.screens.addnote.util
+package com.example.notedemoapp.util
 
 sealed class UiEvent {
     data class ShowSnackbar(val message: String): UiEvent()

@@ -16,9 +16,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.notedemoapp.R
-import com.example.notedemoapp.ui.screens.addnote.components.TransparentHintTextField
-import com.example.notedemoapp.ui.screens.addnote.util.AddEditNoteEvent
-import com.example.notedemoapp.ui.screens.addnote.util.UiEvent
+import com.example.notedemoapp.ui.components.TransparentHintTextField
+import com.example.notedemoapp.util.AddEditNoteEvent
+import com.example.notedemoapp.util.UiEvent
 import kotlinx.coroutines.flow.collectLatest
 import yuku.ambilwarna.AmbilWarnaDialog
 

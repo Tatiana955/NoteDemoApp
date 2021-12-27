@@ -40,7 +40,7 @@ fun DetailsScreen(
 }
 
 @Composable
-fun Content(
+private fun Content(
     note: Note?,
     modifier: Modifier
 ) {

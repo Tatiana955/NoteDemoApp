@@ -12,6 +12,7 @@ import com.example.notedemoapp.data.models.Note
 import com.example.notedemoapp.ui.components.AppMultiFloatingActionButton
 import com.example.notedemoapp.ui.screens.details.DetailsViewModel
 import com.example.notedemoapp.util.FabItem
+import com.example.notedemoapp.util.Screen
 
 @Composable
 fun DetailsFloatingActionBtn(
@@ -24,7 +25,9 @@ fun DetailsFloatingActionBtn(
             Icons.Filled.Edit,
             stringResource(R.string.edit)
         ) {
-
+          navController.navigate(Screen.EditNote.route +
+                  "/${note?.title}/${note?.content}"
+          )
         },
         FabItem(
             Icons.Filled.Delete,

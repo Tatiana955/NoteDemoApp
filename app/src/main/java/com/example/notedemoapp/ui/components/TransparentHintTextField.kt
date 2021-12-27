@@ -1,4 +1,4 @@
-package com.example.notedemoapp.ui.screens.addnote.components
+package com.example.notedemoapp.ui.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,9 +15,9 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun TransparentHintTextField(
-    text: String,
-    hint: String,
     modifier: Modifier = Modifier,
+    text: String,
+    hint: String = "",
     isHintVisible: Boolean = true,
     onValueChange: (String) -> Unit,
     textStyle: TextStyle = TextStyle(),

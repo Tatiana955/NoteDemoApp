@@ -5,5 +5,6 @@ sealed class Screen(var route: String, var icon: Int?, var title: String) {
     object AddNote: Screen("add_note", null, "AddNoteScreen")
     object DialogDeleteNote: Screen("delete_note", null, "DialogDeleteNote")
     object Details: Screen("details", null, "DetailsScreen")
+    object EditNote: Screen("edit_note", null, "EditNoteScreen")
 }
 

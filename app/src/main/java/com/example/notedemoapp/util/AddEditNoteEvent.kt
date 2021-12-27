@@ -1,4 +1,4 @@
-package com.example.notedemoapp.ui.screens.addnote.util
+package com.example.notedemoapp.util
 
 import androidx.compose.ui.focus.FocusState
 

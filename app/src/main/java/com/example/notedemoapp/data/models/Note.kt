@@ -3,8 +3,8 @@ package com.example.notedemoapp.data.models
 import com.orm.SugarRecord
 
 data class Note(
-    val title: String? = null,
-    val content: String? = null,
-    val timestamp: Long? = null,
+    var title: String? = null,
+    var content: String? = null,
+    var timestamp: Long? = null,
     val color: Int? = null
 ): SugarRecord<Note?>()
