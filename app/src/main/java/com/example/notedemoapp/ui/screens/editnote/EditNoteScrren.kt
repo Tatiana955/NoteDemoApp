@@ -1,10 +1,10 @@
 package com.example.notedemoapp.ui.screens.editnote
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
@@ -16,13 +16,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import com.example.notedemoapp.R
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.notedemoapp.ui.components.TransparentHintTextField
 import com.example.notedemoapp.util.AddEditNoteEvent
+import com.example.notedemoapp.util.Screen
 import com.example.notedemoapp.util.UiEvent
 import kotlinx.coroutines.flow.collectLatest
 
@@ -30,6 +34,7 @@ import kotlinx.coroutines.flow.collectLatest
 fun EditNoteScreen(
     title: String?,
     content: String?,
+    color: Int?,
     modifier: Modifier = Modifier,
     navController: NavController,
     viewModel: EditNoteViewModel = hiltViewModel()
@@ -44,7 +49,7 @@ fun EditNoteScreen(
                     )
                 }
                 is UiEvent.SaveNote -> {
-                    navController.navigateUp()
+                    navController.popBackStack(Screen.Details.route, true)
                 }
             }
         }
@@ -55,6 +60,7 @@ fun EditNoteScreen(
         Content(
             title = title,
             content = content,
+            color = color,
             modifier = modifier,
             viewModel = viewModel
         )
@@ -65,6 +71,7 @@ fun EditNoteScreen(
 private fun Content(
     title: String?,
     content: String?,
+    color: Int?,
     modifier: Modifier,
     viewModel: EditNoteViewModel
 ) {
@@ -78,6 +85,7 @@ private fun Content(
             .padding(10.dp)
             .shadow(5.dp, RoundedCornerShape(10.dp))
             .clip(RoundedCornerShape(10.dp))
+            .background(Color(color!!))
     ) {
         Column(
             modifier = modifier
@@ -111,7 +119,7 @@ private fun EditTitle(
 ) {
     val state = remember { viewModel.noteTitle }.value
     TransparentHintTextField(
-        text = if (state.newText.isEmpty()) { state.oldText } else { state.newText },
+        text = state.newText.ifEmpty { state.oldText },
         onValueChange = {
             viewModel.onEvent(AddEditNoteEvent.EnteredTitle(it))
         },
@@ -120,7 +128,10 @@ private fun EditTitle(
         },
         isHintVisible = false,
         singleLine = true,
-        textStyle = MaterialTheme.typography.h5
+        textStyle = TextStyle(
+            color = Color.White,
+            fontSize = 24.sp
+        )
     )
 }
 
@@ -130,7 +141,7 @@ private fun EditContent(
 ) {
     val state = remember { viewModel.noteContent }.value
     TransparentHintTextField(
-        text = if (state.newText.isEmpty()) { state.oldText } else { state.newText },
+        text = state.newText.ifEmpty { state.oldText },
         onValueChange = {
             viewModel.onEvent(AddEditNoteEvent.EnteredContent(it))
         },
@@ -139,7 +150,10 @@ private fun EditContent(
         },
         isHintVisible = false,
         singleLine = false,
-        textStyle = MaterialTheme.typography.h5
+        textStyle = TextStyle(
+            color = Color.White,
+            fontSize = 20.sp
+        )
     )
 }
 
@@ -155,5 +169,7 @@ private fun DoneImage(
             .clickable {
                 onClick()
             }
+            .background(Color.White)
+            .clip(RoundedCornerShape(10.dp))
     )
 }

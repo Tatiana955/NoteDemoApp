@@ -100,8 +100,7 @@ private fun SaveNote(
             .size(40.dp),
         onClick = {
             viewModel.onEvent(AddEditNoteEvent.SaveNote)
-        },
-        backgroundColor = MaterialTheme.colors.primary,
+        }
     ) {
         Icon(
             painter = painterResource(R.drawable.ic_baseline_done_24),
@@ -133,8 +132,7 @@ private fun NoteColor(
                     }
                 }
             ).show()
-        },
-        backgroundColor = MaterialTheme.colors.primary,
+        }
     ) {
         Icon(
             painter = painterResource(R.drawable.ic_baseline_palette_24),
@@ -153,7 +151,7 @@ private fun EditTitle(
         text = titleState.text,
         hint = titleState.hint,
         modifier = modifier
-            .shadow(5.dp, RoundedCornerShape(10.dp))
+            .shadow(5.dp, RoundedCornerShape(5.dp))
             .clip(RoundedCornerShape(10.dp)),
         onValueChange = {
             viewModel.onEvent(AddEditNoteEvent.EnteredTitle(it))
@@ -177,7 +175,7 @@ private fun EditContent(
         text = contentState.text,
         modifier = modifier
             .fillMaxHeight()
-            .shadow(5.dp, RoundedCornerShape(10.dp))
+            .shadow(5.dp, RoundedCornerShape(5.dp))
             .clip(RoundedCornerShape(10.dp)),
         hint = contentState.hint,
         onValueChange = {

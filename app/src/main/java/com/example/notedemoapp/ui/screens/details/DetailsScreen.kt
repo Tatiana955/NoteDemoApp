@@ -50,7 +50,7 @@ private fun Content(
             .wrapContentHeight()
             .fillMaxWidth()
             .padding(10.dp)
-            .shadow(5.dp, RoundedCornerShape(10.dp))
+            .shadow(5.dp, RoundedCornerShape(5.dp))
             .clip(RoundedCornerShape(10.dp))
             .background(Color(note?.color!!))
     ) {
@@ -64,7 +64,8 @@ private fun Content(
                     text = it,
                     modifier = modifier
                         .align(Alignment.CenterHorizontally)
-                        .padding(5.dp)
+                        .padding(5.dp),
+                    color = Color.White
                 )
             }
             note.content?.let {
@@ -72,7 +73,8 @@ private fun Content(
                     text = it,
                     modifier = modifier
                         .align(Alignment.Start)
-                        .padding(5.dp)
+                        .padding(5.dp),
+                    color = Color.White
                 )
             }
         }

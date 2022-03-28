@@ -1,12 +1,10 @@
 package com.example.notedemoapp.ui.components
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -25,6 +23,8 @@ fun AppDialog(
     onPositiveClick: () -> Unit = {}
 ) {
     AlertDialog(
+        backgroundColor = Color.White,
+        contentColor = MaterialTheme.colors.onBackground,
         onDismissRequest = onDismiss,
         title = {
             Text(

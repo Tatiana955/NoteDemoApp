@@ -26,7 +26,7 @@ fun DetailsFloatingActionBtn(
             stringResource(R.string.edit)
         ) {
           navController.navigate(Screen.EditNote.route +
-                  "/${note?.title}/${note?.content}"
+                  "/${note?.title}/${note?.content}/${note?.color}"
           )
         },
         FabItem(

@@ -49,8 +49,7 @@ fun NotesScreen(
             FloatingActionButton(
                 onClick = {
                     navController.navigate(Screen.AddNote.route)
-                },
-                backgroundColor = MaterialTheme.colors.primary
+                }
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
@@ -128,7 +127,8 @@ private fun NoteItem(
                     text = it,
                     modifier = modifier
                         .align(Alignment.CenterHorizontally)
-                        .padding(5.dp)
+                        .padding(5.dp),
+                    color = Color.White
                 )
             }
             note.content?.let {
@@ -136,7 +136,8 @@ private fun NoteItem(
                     text = it,
                     modifier = modifier
                         .align(Alignment.Start)
-                        .padding(5.dp)
+                        .padding(5.dp),
+                    color = Color.White
                 )
             }
         }

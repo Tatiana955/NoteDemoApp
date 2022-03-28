@@ -59,13 +59,16 @@ fun AppNavHost(
                 note = note
             )
         }
-        composable(Screen.EditNote.route + "/{title}/{content}",
+        composable(Screen.EditNote.route + "/{title}/{content}/{color}",
             arguments = listOf(
                 navArgument("title") {
                     type = NavType.StringType
                 },
                 navArgument("content") {
                     type = NavType.StringType
+                },
+                navArgument("color") {
+                    type = NavType.IntType
                 }
             )
         ) {
@@ -75,9 +78,13 @@ fun AppNavHost(
             val content = remember {
                 it.arguments?.getString("content")
             }
+            val color = remember {
+                it.arguments?.getInt("color")
+            }
             EditNoteScreen(
                 title = title,
                 content = content,
+                color = color,
                 navController = navController
             )
         }
