@@ -25,13 +25,15 @@ class AddNoteViewModel @Inject constructor(
 
     private val _noteTitle = mutableStateOf(
         NoteTextFieldState(
-        hint = "Enter title...")
+            hint = "Enter title..."
+        )
     )
     val noteTitle: State<NoteTextFieldState> = _noteTitle
 
     private val _noteContent = mutableStateOf(
         NoteTextFieldState(
-        hint = "Enter content...")
+            hint = "Enter content..."
+        )
     )
     val noteContent: State<NoteTextFieldState> = _noteContent
 
@@ -41,30 +43,35 @@ class AddNoteViewModel @Inject constructor(
     val eventFlow = _eventFlow.asSharedFlow()
 
     fun onEvent(event: AddEditNoteEvent) {
-        when(event) {
+        when (event) {
             is AddEditNoteEvent.EnteredTitle -> {
                 _noteTitle.value = noteTitle.value.copy(
                     text = event.value
                 )
             }
+
             is AddEditNoteEvent.ChangeTitleFocus -> {
                 _noteTitle.value = noteTitle.value.copy(
                     isHintVisible = !event.focusState.isFocused && noteTitle.value.text.isBlank()
                 )
             }
+
             is AddEditNoteEvent.EnteredContent -> {
                 _noteContent.value = _noteContent.value.copy(
                     text = event.value
                 )
             }
+
             is AddEditNoteEvent.ChangeContentFocus -> {
                 _noteContent.value = _noteContent.value.copy(
                     isHintVisible = !event.focusState.isFocused && _noteContent.value.text.isBlank()
                 )
             }
+
             is AddEditNoteEvent.ChangeColor -> {
                 color = event.color
             }
+
             is AddEditNoteEvent.SaveNote -> {
                 viewModelScope.launch {
                     try {
@@ -77,7 +84,7 @@ class AddNoteViewModel @Inject constructor(
                             )
                         )
                         _eventFlow.emit(UiEvent.SaveNote)
-                    } catch(e: InvalidNoteException) {
+                    } catch (e: InvalidNoteException) {
                         _eventFlow.emit(
                             UiEvent.ShowSnackbar(
                                 message = e.message ?: "Failed to save note"

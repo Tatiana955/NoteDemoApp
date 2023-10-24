@@ -4,6 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -16,6 +17,7 @@ import com.example.notedemoapp.R
 @Composable
 fun AppScreen() {
     val navController = rememberNavController()
+    val scaffoldState = rememberScaffoldState()
     Scaffold(
         topBar = {
             AppTopBar(
@@ -29,7 +31,8 @@ fun AppScreen() {
         content = { innerPadding ->
             AppNavHost(
                 navController = navController,
-                modifier = Modifier.padding(innerPadding)
+                modifier = Modifier.padding(innerPadding),
+                scaffoldState = scaffoldState
             )
         }
     )

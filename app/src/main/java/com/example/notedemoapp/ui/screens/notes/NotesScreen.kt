@@ -13,9 +13,9 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -27,10 +27,8 @@ import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.notedemoapp.R
 import com.example.notedemoapp.data.models.Note
-import com.example.notedemoapp.ui.theme.NoteDemoAppTheme
 import com.example.notedemoapp.util.Screen
 
 @ExperimentalFoundationApi
@@ -60,7 +58,7 @@ fun NotesScreen(
     ) {
         Content(
             notesList = notesList,
-            modifier = modifier,
+            modifier = modifier.padding(it),
             onLongClick = onLongClick,
             onTap = onTap
         )
@@ -76,7 +74,7 @@ private fun Content(
     onTap: (Note) -> Unit
 ) {
     LazyVerticalGrid(
-        cells = GridCells.Fixed(2),
+        columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(8.dp)
     ) {
         items(items = notesList, itemContent = { item ->
@@ -140,28 +138,6 @@ private fun NoteItem(
                     color = Color.White
                 )
             }
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun NoteItemPreview() {
-    NoteDemoAppTheme {
-        Surface {
-            val fakeNote = Note("Title", "Content" , 16565656556,  -16776961)
-            NoteItem(note = fakeNote, modifier = Modifier)
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun NoteItemPreviewDark() {
-    NoteDemoAppTheme(darkTheme = true) {
-        Surface {
-            val fakeNote = Note("Title", "Content" , 16565656556,  -16776961)
-            NoteItem(note = fakeNote, modifier = Modifier)
         }
     }
 }

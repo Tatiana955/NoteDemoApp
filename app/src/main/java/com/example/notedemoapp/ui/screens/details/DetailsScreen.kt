@@ -23,7 +23,7 @@ fun DetailsScreen(
     modifier: Modifier = Modifier,
     viewModel: DetailsViewModel = hiltViewModel()
 ) {
-    Scaffold (
+    Scaffold(
         floatingActionButton = {
             DetailsFloatingActionBtn(
                 navController = navController,
@@ -31,11 +31,15 @@ fun DetailsScreen(
                 viewModel = viewModel
             )
         }
-    ) {
-        Content(
-            note = note,
-            modifier = modifier
-        )
+    ) { paddingValues ->
+        Box(
+            modifier = modifier.padding(paddingValues)
+        ) {
+            Content(
+                note = note,
+                modifier = modifier
+            )
+        }
     }
 }
 

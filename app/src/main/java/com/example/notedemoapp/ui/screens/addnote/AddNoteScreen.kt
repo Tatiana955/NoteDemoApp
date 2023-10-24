@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -26,31 +25,28 @@ import yuku.ambilwarna.AmbilWarnaDialog
 fun AddNoteScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
+    scaffoldState: ScaffoldState,
     viewModel: AddNoteViewModel = hiltViewModel()
 ) {
-    val scaffoldState = rememberScaffoldState()
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
-            when(event) {
+            when (event) {
                 is UiEvent.ShowSnackbar -> {
                     scaffoldState.snackbarHostState.showSnackbar(
                         message = event.message
                     )
                 }
+
                 is UiEvent.SaveNote -> {
                     navController.navigateUp()
                 }
             }
         }
     }
-    Scaffold(
-        scaffoldState = scaffoldState
-    ) {
-        Content(
-            viewModel = viewModel,
-            modifier = modifier
-        )
-    }
+    Content(
+        viewModel = viewModel,
+        modifier = modifier
+    )
 }
 
 @Composable
@@ -90,6 +86,7 @@ private fun Content(
         )
     }
 }
+
 @Composable
 private fun SaveNote(
     viewModel: AddNoteViewModel,
@@ -97,7 +94,8 @@ private fun SaveNote(
 ) {
     FloatingActionButton(
         modifier = modifier
-            .size(40.dp),
+            .size(40.dp)
+            .shadow(10.dp, RoundedCornerShape(20.dp)),
         onClick = {
             viewModel.onEvent(AddEditNoteEvent.SaveNote)
         }
@@ -117,7 +115,8 @@ private fun NoteColor(
     val context = LocalContext.current
     FloatingActionButton(
         modifier = modifier
-            .size(40.dp),
+            .size(40.dp)
+            .shadow(10.dp, RoundedCornerShape(20.dp)),
         onClick = {
             AmbilWarnaDialog(
                 context,
@@ -127,6 +126,7 @@ private fun NoteColor(
                         viewModel.color = color
                         viewModel.onEvent(AddEditNoteEvent.ChangeColor(viewModel.color))
                     }
+
                     override fun onCancel(dialog: AmbilWarnaDialog?) {
                         dialog?.dialog?.dismiss()
                     }
@@ -150,9 +150,7 @@ private fun EditTitle(
     TransparentHintTextField(
         text = titleState.text,
         hint = titleState.hint,
-        modifier = modifier
-            .shadow(5.dp, RoundedCornerShape(5.dp))
-            .clip(RoundedCornerShape(10.dp)),
+        modifier = modifier,
         onValueChange = {
             viewModel.onEvent(AddEditNoteEvent.EnteredTitle(it))
         },
@@ -161,7 +159,8 @@ private fun EditTitle(
         },
         isHintVisible = titleState.isHintVisible,
         singleLine = true,
-        textStyle = MaterialTheme.typography.h5
+        textStyle = MaterialTheme.typography.h5,
+        elevation = 5.dp
     )
 }
 
@@ -175,8 +174,7 @@ private fun EditContent(
         text = contentState.text,
         modifier = modifier
             .fillMaxHeight()
-            .shadow(5.dp, RoundedCornerShape(5.dp))
-            .clip(RoundedCornerShape(10.dp)),
+            .padding(bottom = 20.dp),
         hint = contentState.hint,
         onValueChange = {
             viewModel.onEvent(AddEditNoteEvent.EnteredContent(it))
@@ -186,5 +184,6 @@ private fun EditContent(
         },
         isHintVisible = contentState.isHintVisible,
         textStyle = MaterialTheme.typography.body1,
+        elevation = 5.dp
     )
 }

@@ -43,25 +43,29 @@ class EditNoteViewModel @Inject constructor(
                     newText = event.value
                 )
             }
+
             is AddEditNoteEvent.ChangeTitleFocus -> {
                 _noteTitle.value = noteTitle.value.copy(
                     oldText = oldTitle,
                     newText = noteTitle.value.newText,
                 )
             }
+
             is AddEditNoteEvent.EnteredContent -> {
                 _noteContent.value = _noteContent.value.copy(
                     oldText = oldContent,
                     newText = event.value
                 )
             }
+
             is AddEditNoteEvent.ChangeContentFocus -> {
                 _noteContent.value = _noteContent.value.copy(
                     oldText = oldContent,
                     newText = noteContent.value.newText
                 )
             }
-            is AddEditNoteEvent.SaveNote -> {
+            // AddEditNoteEvent.SaveNote
+            else -> {
                 viewModelScope.launch {
                     try {
                         noteUseCases.updateNoteUseCase(

@@ -1,14 +1,13 @@
 package com.example.notedemoapp.ui.screens.editnote
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Scaffold
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -37,34 +36,31 @@ fun EditNoteScreen(
     color: Int?,
     modifier: Modifier = Modifier,
     navController: NavController,
-    viewModel: EditNoteViewModel = hiltViewModel()
+    viewModel: EditNoteViewModel = hiltViewModel(),
+    scaffoldState: ScaffoldState
 ) {
-    val scaffoldState = rememberScaffoldState()
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
-            when(event) {
+            when (event) {
                 is UiEvent.ShowSnackbar -> {
                     scaffoldState.snackbarHostState.showSnackbar(
                         message = event.message
                     )
                 }
+
                 is UiEvent.SaveNote -> {
                     navController.popBackStack(Screen.Details.route, true)
                 }
             }
         }
     }
-    Scaffold(
-        scaffoldState = scaffoldState
-    ) {
-        Content(
-            title = title,
-            content = content,
-            color = color,
-            modifier = modifier,
-            viewModel = viewModel
-        )
-    }
+    Content(
+        title = title,
+        content = content,
+        color = color,
+        modifier = modifier,
+        viewModel = viewModel
+    )
 }
 
 @Composable
@@ -162,14 +158,16 @@ private fun DoneImage(
     modifier: Modifier,
     onClick: () -> Unit
 ) {
-    Image(
-        imageVector = Icons.Default.Done,
-        contentDescription = stringResource(R.string.done),
+    IconButton(
+        onClick = { onClick() },
         modifier = modifier
-            .clickable {
-                onClick()
-            }
             .background(Color.White)
             .clip(RoundedCornerShape(10.dp))
-    )
+            .size(26.dp)
+    ) {
+        Icon(
+            imageVector = Icons.Default.Done,
+            contentDescription = stringResource(R.string.done)
+        )
+    }
 }

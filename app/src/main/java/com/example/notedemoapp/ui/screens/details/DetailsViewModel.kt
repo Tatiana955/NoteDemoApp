@@ -11,7 +11,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
     private val noteUseCases: NoteUseCases
-): ViewModel() {
+) : ViewModel() {
 
     fun deleteNote(note: Note) {
         viewModelScope.launch {

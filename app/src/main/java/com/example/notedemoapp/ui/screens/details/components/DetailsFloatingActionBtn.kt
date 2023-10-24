@@ -25,9 +25,10 @@ fun DetailsFloatingActionBtn(
             Icons.Filled.Edit,
             stringResource(R.string.edit)
         ) {
-          navController.navigate(Screen.EditNote.route +
-                  "/${note?.title}/${note?.content}/${note?.color}"
-          )
+            navController.navigate(
+                Screen.EditNote.route +
+                        "/${note?.title}/${note?.content}/${note?.color}"
+            )
         },
         FabItem(
             Icons.Filled.Delete,

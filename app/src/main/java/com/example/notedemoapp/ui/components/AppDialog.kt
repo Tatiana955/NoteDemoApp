@@ -6,10 +6,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.notedemoapp.ui.theme.NoteDemoAppTheme
 
 @Composable
 fun AppDialog(
@@ -61,19 +59,4 @@ fun AppDialog(
             }
         }
     )
-}
-
-@Preview
-@Composable
-private fun AppDialogPreview() {
-    NoteDemoAppTheme {
-        Surface {
-            AppDialog(
-                title = "Title",
-                text = "Text",
-                confirmButtonText = "Btn",
-                dismissButtonText = "Btn",
-            )
-        }
-    }
 }
